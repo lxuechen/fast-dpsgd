@@ -25,6 +25,13 @@ from experimental.privacy_utils.utils.module_inspection import get_layer_type
 from experimental.privacy_utils.utils.tensor_utils import sum_over_all_but_batch_and_last_n, unfold3d
 
 
+def _create_or_extend_norm_sample(param, norm_sample):
+    if not hasattr(param, "requires_grad") and not param.requires_grad:
+        return
+    if autograd_grad_sample.get_hooks_mode() == "norm":
+        param.norm_sample = norm_sample
+
+
 def _create_or_extend_grad_sample(
     param: torch.Tensor, grad_sample: torch.Tensor, batch_dim: int,
     force_grad_sample: bool = False,
@@ -99,19 +106,9 @@ def _compute_linear_grad_sample(
         B: Backpropagations
         batch_dim: Batch dimension position
     """
-    if B.dtype != A.dtype:
-        A = A.to(B.dtype)
-    _create_or_extend_grad_sample(
-        layer.weight,
-        torch.bmm(B.permute(0, 2, 1), A),
-        batch_dim
-    )
+    _create_or_extend_norm_sample(layer.weight, A.norm(2, dim=1) * B.norm(2, dim=1))
     if layer.bias is not None:
-        _create_or_extend_grad_sample(
-            layer.bias,
-            B.sum(dim=1),
-            batch_dim,
-        )
+        _create_or_extend_norm_sample(layer.bias, B.norm(2, dim=1))
 
 
 def _compute_accumulate_linear_grad_sample(
