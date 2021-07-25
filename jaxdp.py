@@ -3,20 +3,16 @@ Code for JAX implementations presented in: Enabling Fast
 Differentially Private SGD via Just-in-Time Compilation and Vectorization
 '''
 
+from functools import partial
 import itertools
 import time
-from functools import partial
 
 import haiku as hk
 import jax
-import jax.numpy as jnp
-import numpy as np
 from jax import grad, jit, random, vmap
 from jax.experimental import optimizers, stax
-from jax.lib import pytree
+import jax.numpy as jnp
 from jax.tree_util import tree_flatten, tree_multimap, tree_unflatten
-from keras.utils.np_utils import to_categorical
-from tensorflow_privacy.privacy.analysis.rdp_accountant import (compute_rdp, get_privacy_spent)
 
 import data
 import utils
@@ -292,7 +288,10 @@ def main(args):
 
 
 if __name__ == '__main__':
-    # python jaxdp.py ffnn --dummy_data --batch_size 1000 --dpsgd
+    # python jaxdp.py ffnn --dummy_data --batch_size 100000 --dpsgd  --epochs 100000
+    import os
+
+    os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
     parser = utils.get_parser(model_dict.keys())
     parser.add_argument('--no_vmap', dest='no_vmap', action='store_true')
     parser.add_argument('--no_jit', dest='no_jit', action='store_true')

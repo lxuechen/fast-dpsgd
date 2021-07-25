@@ -174,6 +174,7 @@ def main(args):
 
 
 if __name__ == '__main__':
+    # python pytorch.py ffnn --batch_size 100000 --dummy_data --epochs 100000
     parser = utils.get_parser(model_dict.keys())
     args = parser.parse_args()
     main(args)
