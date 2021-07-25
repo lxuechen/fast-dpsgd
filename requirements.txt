@@ -130,7 +130,6 @@ termcolor==1.1.0
 terminado==0.9.1
 testpath==0.4.4
 tf-estimator-nightly>=2.4.0.dev2020093001
-tf-nightly-gpu>=2.6.0.dev20210504
 toml==0.10.1
 torch==1.6.0
 torchcsprng==0.1.2
