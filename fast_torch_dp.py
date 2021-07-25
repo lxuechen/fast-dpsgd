@@ -75,7 +75,7 @@ def main(args):
 
 
 if __name__ == '__main__':
-    # python fast_torch_dp.py --batch_size 10
+    # python fast_torch_dp.py ffnn --dpsgd --batch_size 10
     parser = utils.get_parser(model_dict.keys())
     parser.add_argument(
         "--sigma",
