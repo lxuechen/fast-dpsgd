@@ -292,6 +292,7 @@ def main(args):
 
 
 if __name__ == '__main__':
+    # python jaxdp.py ffnn --dummy_data --batch_size 1000 --dpsgd
     parser = utils.get_parser(model_dict.keys())
     parser.add_argument('--no_vmap', dest='no_vmap', action='store_true')
     parser.add_argument('--no_jit', dest='no_jit', action='store_true')

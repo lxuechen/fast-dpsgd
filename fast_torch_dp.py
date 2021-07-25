@@ -63,7 +63,7 @@ def main(args):
         if args.dpsgd:
             epsilon, best_alpha = optimizer.privacy_engine.get_privacy_spent(args.delta)
             print(f"Train Epoch: {epoch} \t"
-                  f"(ε = {epsilon:.2f}, δ = {args.delta}) for α = {best_alpha}")
+                  f"(ε = {epsilon}, δ = {args.delta}) for α = {best_alpha}")
         else:
             print(f"Train Epoch: {epoch}")
 
